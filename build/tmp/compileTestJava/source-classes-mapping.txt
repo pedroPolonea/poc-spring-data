@@ -1,2 +1,0 @@
-com/psd/filter/FilterApplicationTests.java
- com.psd.filter.FilterApplicationTests
