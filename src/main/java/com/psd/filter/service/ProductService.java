@@ -11,6 +11,8 @@ public interface ProductService {
 
     List<ProductEntity> getAll();
 
+    List<ProductEntity> findProducts(final ProductVO productVO);
+
     Optional<ProductEntity> getId(Long id);
 
     List<ProductEntity> findAllActive();

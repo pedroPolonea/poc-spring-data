@@ -1,6 +1,7 @@
 package com.psd.filter.service.impl;
 
 import com.psd.filter.entity.ProductEntity;
+import com.psd.filter.entity.enums.ProductType;
 import com.psd.filter.map.mapping.ProductMapping;
 import com.psd.filter.map.vo.ProductVO;
 import com.psd.filter.repository.ProductRepository;
@@ -8,6 +9,8 @@ import com.psd.filter.service.ProductService;
 import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -80,4 +83,23 @@ public class ProductServiceImpl implements ProductService {
             throw new NotFoundException("Recurso não encontrado.");
         }
     }
+
+    public List<ProductEntity> findProducts(final ProductVO productVO){
+        log.info("M=findProducts, productVO={}", productVO);
+
+        ExampleMatcher customExampleMatcher = ExampleMatcher.matchingAny()
+                .withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("description", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("amount", ExampleMatcher.GenericPropertyMatchers.exact());
+
+        Example<ProductEntity> example = Example.of(ProductEntity.builder()
+                .name(productVO.getName())
+                .description(productVO.getDescription())
+                .amount(productVO.getAmount())
+                .build(), customExampleMatcher);
+
+        return productRepository.findAll(example);
+    }
+
+
 }

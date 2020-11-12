@@ -25,6 +25,11 @@ public class ProductResources {
     @Autowired
     private ProductService productService;
 
+    @GetMapping(value = "example")
+    public ResponseEntity<?> findProducts(@RequestBody ProductVO productVO){
+        return new ResponseEntity<>(productService.findProducts(productVO), HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity<?> getAllProduts(){
         return new ResponseEntity<>(productService.getAll(), HttpStatus.OK);
