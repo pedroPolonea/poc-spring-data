@@ -4,6 +4,7 @@ import com.psd.filter.entity.ProductEntity;
 import com.psd.filter.map.mapping.ProductMapping;
 import com.psd.filter.map.vo.ProductVO;
 import com.psd.filter.repository.ProductRepository;
+import com.psd.filter.repository.spec.ProductSpecification;
 import com.psd.filter.service.ProductService;
 import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -88,6 +89,11 @@ public class ProductServiceImpl implements ProductService {
             log.info("M=ProductServiceImpl.delete, I=Recurso não encontrado.");
             throw new NotFoundException("Recurso não encontrado.");
         }
+    }
+
+    @Override
+    public List<ProductEntity> findProductsSpecificationClass(ProductVO productVO) {
+        return productRepository.findAll(where(ProductSpecification.getProductSpecification(productVO)));
     }
 
     public List<ProductEntity> findProductsExample(final ProductVO productVO){

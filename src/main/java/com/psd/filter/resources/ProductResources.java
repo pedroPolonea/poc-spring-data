@@ -35,6 +35,11 @@ public class ProductResources {
         return new ResponseEntity<>(productService.findProductsSpecification(productVO), HttpStatus.OK);
     }
 
+    @GetMapping(value = "specification-class")
+    public ResponseEntity<?> findProductsSpecificationClass(@RequestBody ProductVO productVO){
+        return new ResponseEntity<>(productService.findProductsSpecificationClass(productVO), HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity<?> getAllProduts(){
         return new ResponseEntity<>(productService.getAll(), HttpStatus.OK);

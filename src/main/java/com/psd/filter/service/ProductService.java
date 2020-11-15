@@ -24,4 +24,6 @@ public interface ProductService {
     ProductVO update(Optional<ProductVO> productVO) throws Exception;
 
     void delete(final Optional<Long> id) throws NotFoundException;
+
+    List<ProductEntity> findProductsSpecificationClass(final ProductVO productVO);
 }
