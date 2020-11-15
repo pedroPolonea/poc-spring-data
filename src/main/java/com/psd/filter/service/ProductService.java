@@ -19,6 +19,10 @@ public interface ProductService {
 
     List<ProductEntity> findAllActive();
 
+    List<ProductEntity> findAllActiveQueryNative();
+
+    List<ProductEntity> findAllActiveQuery();
+
     ProductVO save(ProductVO productVO);
 
     ProductVO update(Optional<ProductVO> productVO) throws Exception;

@@ -50,6 +50,16 @@ public class ProductResources {
         return new ResponseEntity<>(productService.findAllActive(), HttpStatus.OK);
     }
 
+    @GetMapping(value = "active-query")
+    public ResponseEntity<?> getAllActiveQueryProduts(){
+        return new ResponseEntity<>(productService.findAllActive(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "active-query-native")
+    public ResponseEntity<?> getAllActiveQueryNativeProduts(){
+        return new ResponseEntity<>(productService.findAllActive(), HttpStatus.OK);
+    }
+
     @ApiOperation(
             value = "Get all products.",
             response = ProductVO.class)

@@ -49,6 +49,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductEntity> findAllActiveQueryNative() {
+        return productRepository.findByActiveQueryNative();
+    }
+
+    @Override
+    public List<ProductEntity> findAllActiveQuery() {
+        return productRepository.findByActiveQuery();
+    }
+
+    @Override
     public ProductVO save(final ProductVO productVO) {
         log.info("M=ProductServiceImpl.save, productVO={}", productVO);
 
