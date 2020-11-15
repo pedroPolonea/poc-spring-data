@@ -1,7 +1,6 @@
 package com.psd.filter.service.impl;
 
 import com.psd.filter.entity.ProductEntity;
-import com.psd.filter.entity.enums.ProductType;
 import com.psd.filter.map.mapping.ProductMapping;
 import com.psd.filter.map.vo.ProductVO;
 import com.psd.filter.repository.ProductRepository;
@@ -11,10 +10,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+
+import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
 @Slf4j
@@ -84,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    public List<ProductEntity> findProducts(final ProductVO productVO){
+    public List<ProductEntity> findProductsExample(final ProductVO productVO){
         log.info("M=findProducts, productVO={}", productVO);
 
         ExampleMatcher customExampleMatcher = ExampleMatcher.matchingAny()
@@ -101,5 +107,28 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll(example);
     }
 
+    public List<ProductEntity> findProductsSpecification(final ProductVO productVO){
+        log.info("M=findProducts, productVO={}", productVO);
+
+        return productRepository.findAll(where(getEntityFieldsSpec(productVO)));
+    }
+
+    private Specification<ProductEntity> getEntityFieldsSpec(final ProductVO productVO) {
+        return (root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (!StringUtils.isEmpty(productVO.getName())) {
+                Predicate tenantIdPredicate = criteriaBuilder.equal(root.get("name"), productVO.getName());
+                predicates.add(tenantIdPredicate);
+            }
+
+            if (Objects.nonNull(productVO.getActive())) {
+                Predicate tenantIdPredicate = criteriaBuilder.equal(root.get("active"), productVO.getActive());
+                predicates.add(tenantIdPredicate);
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));
+        };
+    }
 
 }

@@ -26,8 +26,13 @@ public class ProductResources {
     private ProductService productService;
 
     @GetMapping(value = "example")
-    public ResponseEntity<?> findProducts(@RequestBody ProductVO productVO){
-        return new ResponseEntity<>(productService.findProducts(productVO), HttpStatus.OK);
+    public ResponseEntity<?> findProductsExample(@RequestBody ProductVO productVO){
+        return new ResponseEntity<>(productService.findProductsExample(productVO), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "specification")
+    public ResponseEntity<?> findProductsSpecification(@RequestBody ProductVO productVO){
+        return new ResponseEntity<>(productService.findProductsSpecification(productVO), HttpStatus.OK);
     }
 
     @GetMapping

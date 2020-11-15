@@ -11,7 +11,9 @@ public interface ProductService {
 
     List<ProductEntity> getAll();
 
-    List<ProductEntity> findProducts(final ProductVO productVO);
+    List<ProductEntity> findProductsExample(final ProductVO productVO);
+
+    List<ProductEntity> findProductsSpecification(final ProductVO productVO);
 
     Optional<ProductEntity> getId(Long id);
 
