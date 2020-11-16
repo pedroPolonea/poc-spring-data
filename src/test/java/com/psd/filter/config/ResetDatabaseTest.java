@@ -1,8 +1,7 @@
 package com.psd.filter.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.TestContext;
-import org.springframework.test.context.support.AbstractTestExecutionListener;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -12,40 +11,14 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
-@Deprecated
-public class ResetDatabaseTestExecutionListener extends AbstractTestExecutionListener {
+
+@Component
+public class ResetDatabaseTest {
 
     @Autowired
     private DataSource dataSource;
 
-    public final int getOrder() {
-        return 2001;
-    }
-
-    private boolean alreadyCleared = false;
-
-    @Override
-    public void beforeTestClass(TestContext testContext) {
-        testContext.getApplicationContext()
-                .getAutowireCapableBeanFactory()
-                .autowireBean(this);
-    }
-
-    @Override
-    public void prepareTestInstance(TestContext testContext) throws Exception {
-
-        if (!alreadyCleared) {
-            cleanupDatabase();
-            alreadyCleared = true;
-        }
-    }
-
-    @Override
-    public void afterTestClass(TestContext testContext) throws Exception {
-        cleanupDatabase();
-    }
-
-    private void cleanupDatabase() throws SQLException {
+    public void cleanupDatabase() throws SQLException {
         Connection c = dataSource.getConnection();
         Statement s = c.createStatement();
 

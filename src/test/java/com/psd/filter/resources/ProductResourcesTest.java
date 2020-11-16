@@ -1,27 +1,89 @@
 package com.psd.filter.resources;
 
-import com.psd.filter.config.ResetDatabaseTestExecutionListener;
+import com.psd.filter.config.RestAssureConf;
 import com.psd.filter.entity.ProductEntity;
 import com.psd.filter.factory.ProductFactory;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestExecutionListeners;
 
-@TestExecutionListeners(mergeMode =
-        TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS,
-        listeners = {ResetDatabaseTestExecutionListener.class}
-)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ProductResourcesTest {
+import static io.restassured.RestAssured.given;
+
+class ProductResourcesTest extends RestAssureConf {
 
     @Autowired
     private ProductFactory productFactory;
 
-    @Test
-    void contextLoads() {
-        ProductEntity product = productFactory.createProductBase();
+    private static ProductEntity product;
 
+    @BeforeAll
+    void setUpClass(){
+        product = productFactory.createProductBase();
+    }
+
+    @Test
+    void shouldReturnActive() {
+         final ProductEntity[] products =
+                given()
+                    .log().all()
+                    .spec(specification)
+                .when()
+                    .get("products/active")
+                .then()
+                    .statusCode(200)
+                    .extract()
+                    .as(ProductEntity[].class);
+
+        //Assertions.assertEquals(Products[0].getId(), product.getId());
+    }
+
+    @Test
+    void shouldReturnActiveQuery() {
+        final ProductEntity products =
+                    given()
+                        .log().all()
+                        .spec(specification)
+                    .when()
+                        .get("products/active-query")
+                    .then()
+                        .statusCode(200)
+                        .extract()
+                        .as(ProductEntity.class);
+
+        //Assertions.assertEquals(Products[0].getId(), product.getId());
+    }
+
+    @Test
+    void shouldReturnActiveQueryNative() {
+        final ProductEntity[] products =
+                given()
+                        .log().all()
+                        .spec(specification)
+                        .when()
+                        .get("products/active-query-native")
+                        .then()
+                        .statusCode(200)
+                        .extract()
+                        .as(ProductEntity[].class);
+
+        //Assertions.assertEquals(Products[0].getId(), product.getId());
+    }
+
+    @Test
+    void shouldReturnProductById() {
+        final ProductEntity productResponse =
+                given()
+                    .log().all()
+                    .spec(specification)
+                .when()
+                    .get("products/"+product.getId())
+                .then()
+                    .statusCode(200)
+                    .extract()
+                    .as(ProductEntity.class);
+
+        Assertions.assertEquals(productResponse.getId(), product.getId());
     }
 
 
