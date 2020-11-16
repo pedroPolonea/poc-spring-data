@@ -2,8 +2,8 @@ package com.psd.filter.map.mapping;
 
 
 import com.psd.filter.entity.ProductEntity;
-import com.psd.filter.map.vo.ProductSummaryVO;
-import com.psd.filter.map.vo.ProductVO;
+import com.psd.filter.map.dto.ProductSummaryDTO;
+import com.psd.filter.map.dto.ProductDTO;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -11,10 +11,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ProductMapping {
 
-    ProductVO productEntityToProductVO(ProductEntity product);
+    ProductDTO productEntityToProductDTO(ProductEntity product);
 
-    ProductEntity productVOToProductEntity(ProductVO vo);
+    ProductEntity productDTOToProductEntity(ProductDTO dto);
 
-    List<ProductSummaryVO> productEntityToProductSummaryVO(List<ProductEntity> products);
+    List<ProductSummaryDTO> productEntityToProductSummaryVO(List<ProductEntity> products);
 
 }

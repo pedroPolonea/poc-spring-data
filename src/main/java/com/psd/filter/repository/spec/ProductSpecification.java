@@ -1,7 +1,7 @@
 package com.psd.filter.repository.spec;
 
 import com.psd.filter.entity.ProductEntity;
-import com.psd.filter.map.vo.ProductVO;
+import com.psd.filter.map.dto.ProductDTO;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class ProductSpecification {
 
-    public static Specification<ProductEntity> getProductSpecification(final ProductVO productVO){
+    public static Specification<ProductEntity> getProductSpecification(final ProductDTO productVO){
         return new Specification<ProductEntity>() {
             @Override
             public Predicate toPredicate(Root<ProductEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {

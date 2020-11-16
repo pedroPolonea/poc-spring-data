@@ -1,7 +1,7 @@
 package com.psd.filter.resources;
 
 
-import com.psd.filter.map.vo.ProductVO;
+import com.psd.filter.map.dto.ProductDTO;
 import com.psd.filter.service.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,18 +27,18 @@ public class ProductResources {
     private ProductService productService;
 
     @GetMapping(value = "example")
-    public ResponseEntity<?> findProductsExample(@RequestBody ProductVO productVO){
-        return new ResponseEntity<>(productService.findProductsExample(productVO), HttpStatus.OK);
+    public ResponseEntity<?> findProductsExample(@RequestBody ProductDTO productDTO){
+        return new ResponseEntity<>(productService.findProductsExample(productDTO), HttpStatus.OK);
     }
 
     @GetMapping(value = "specification")
-    public ResponseEntity<?> findProductsSpecification(@RequestBody ProductVO productVO){
-        return new ResponseEntity<>(productService.findProductsSpecification(productVO), HttpStatus.OK);
+    public ResponseEntity<?> findProductsSpecification(@RequestBody ProductDTO productDTO){
+        return new ResponseEntity<>(productService.findProductsSpecification(productDTO), HttpStatus.OK);
     }
 
     @GetMapping(value = "specification-class")
-    public ResponseEntity<?> findProductsSpecificationClass(@RequestBody ProductVO productVO){
-        return new ResponseEntity<>(productService.findProductsSpecificationClass(productVO), HttpStatus.OK);
+    public ResponseEntity<?> findProductsSpecificationClass(@RequestBody ProductDTO productDTO){
+        return new ResponseEntity<>(productService.findProductsSpecificationClass(productDTO), HttpStatus.OK);
     }
 
     @GetMapping
@@ -63,18 +63,18 @@ public class ProductResources {
 
     @ApiOperation(
             value = "Get all products.",
-            response = ProductVO.class)
+            response = ProductDTO.class)
     @PostMapping
-    public ResponseEntity<?> save(@Valid @RequestBody ProductVO productVO){
-        return new ResponseEntity<>(productService.save(productVO), HttpStatus.OK);
+    public ResponseEntity<?> save(@Valid @RequestBody ProductDTO productDTO){
+        return new ResponseEntity<>(productService.save(productDTO), HttpStatus.OK);
     }
 
     @ApiOperation(
             value = "Get all products.",
-            response = ProductVO.class)
+            response = ProductDTO.class)
     @PutMapping
-    public  ResponseEntity<?> update(@Valid @RequestBody ProductVO productVO) throws Exception {
-        return new ResponseEntity<>(productService.update(Optional.ofNullable(productVO)), HttpStatus.OK);
+    public  ResponseEntity<?> update(@Valid @RequestBody ProductDTO productDTO) throws Exception {
+        return new ResponseEntity<>(productService.update(Optional.ofNullable(productDTO)), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")

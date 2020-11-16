@@ -1,7 +1,7 @@
 package com.psd.filter.service;
 
 import com.psd.filter.entity.ProductEntity;
-import com.psd.filter.map.vo.ProductVO;
+import com.psd.filter.map.dto.ProductDTO;
 import javassist.NotFoundException;
 
 import java.util.List;
@@ -11,9 +11,9 @@ public interface ProductService {
 
     List<ProductEntity> getAll();
 
-    List<ProductEntity> findProductsExample(final ProductVO productVO);
+    List<ProductEntity> findProductsExample(final ProductDTO productDTO);
 
-    List<ProductEntity> findProductsSpecification(final ProductVO productVO);
+    List<ProductEntity> findProductsSpecification(final ProductDTO productDTO);
 
     Optional<ProductEntity> getId(Long id);
 
@@ -23,11 +23,11 @@ public interface ProductService {
 
     List<ProductEntity> findAllActiveQuery();
 
-    ProductVO save(ProductVO productVO);
+    ProductDTO save(ProductDTO productVO);
 
-    ProductVO update(Optional<ProductVO> productVO) throws Exception;
+    ProductDTO update(Optional<ProductDTO> productVO) throws Exception;
 
     void delete(final Optional<Long> id) throws NotFoundException;
 
-    List<ProductEntity> findProductsSpecificationClass(final ProductVO productVO);
+    List<ProductEntity> findProductsSpecificationClass(final ProductDTO productVO);
 }

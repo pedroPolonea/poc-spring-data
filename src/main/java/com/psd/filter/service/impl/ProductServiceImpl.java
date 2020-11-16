@@ -2,7 +2,7 @@ package com.psd.filter.service.impl;
 
 import com.psd.filter.entity.ProductEntity;
 import com.psd.filter.map.mapping.ProductMapping;
-import com.psd.filter.map.vo.ProductVO;
+import com.psd.filter.map.dto.ProductDTO;
 import com.psd.filter.repository.ProductRepository;
 import com.psd.filter.repository.spec.ProductSpecification;
 import com.psd.filter.service.ProductService;
@@ -59,31 +59,31 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductVO save(final ProductVO productVO) {
-        log.info("M=ProductServiceImpl.save, productVO={}", productVO);
+    public ProductDTO save(final ProductDTO productDTO) {
+        log.info("M=ProductServiceImpl.save, productDTO={}", productDTO);
 
-        ProductEntity productEntity = productMapping.productVOToProductEntity(productVO);
+        ProductEntity productEntity = productMapping.productDTOToProductEntity(productDTO);
         productEntity = productRepository.save(productEntity);
 
         log.info("M=ProductServiceImpl.save, productEntity={}", productEntity);
-        return productMapping.productEntityToProductVO(productEntity);
+        return productMapping.productEntityToProductDTO(productEntity);
     }
 
     @Override
-    public ProductVO update(final Optional<ProductVO> productVO) throws Exception {
-        validateUpdate(productVO);
+    public ProductDTO update(final Optional<ProductDTO> productDTO) throws Exception {
+        validateUpdate(productDTO);
 
-        log.info("M=ProductServiceImpl.update, productVO={}", productVO.get());
-        ProductEntity productEntity = productMapping.productVOToProductEntity(productVO.get());
+        log.info("M=ProductServiceImpl.update, productDTO={}", productDTO.get());
+        ProductEntity productEntity = productMapping.productDTOToProductEntity(productDTO.get());
         productEntity = productRepository.save(productEntity);
         log.info("M=ProductServiceImpl.update, productEntity={}", productEntity);
 
-        return productMapping.productEntityToProductVO(productEntity);
+        return productMapping.productEntityToProductDTO(productEntity);
     }
 
-    private void validateUpdate(final Optional<ProductVO> productVO) throws Exception {
-        if (!productVO.map(vo -> vo.getId()).isPresent()) {
-            log.error("M=ProductServiceImpl.validateUpdate, I=O productVO se encontra null ou sem id definido.");
+    private void validateUpdate(final Optional<ProductDTO> productDTO) throws Exception {
+        if (!productDTO.map(dto -> dto.getId()).isPresent()) {
+            log.error("M=ProductServiceImpl.validateUpdate, I=O productDTO se encontra null ou sem id definido.");
             throw new Exception("Problema na criação do Statement");
         }
     }
@@ -102,12 +102,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductEntity> findProductsSpecificationClass(ProductVO productVO) {
+    public List<ProductEntity> findProductsSpecificationClass(ProductDTO productVO) {
         return productRepository.findAll(where(ProductSpecification.getProductSpecification(productVO)));
     }
 
-    public List<ProductEntity> findProductsExample(final ProductVO productVO){
-        log.info("M=findProducts, productVO={}", productVO);
+    public List<ProductEntity> findProductsExample(final ProductDTO productDTO){
+        log.info("M=findProducts, productDTO={}", productDTO);
 
         ExampleMatcher customExampleMatcher = ExampleMatcher.matchingAny()
                 .withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
@@ -115,31 +115,31 @@ public class ProductServiceImpl implements ProductService {
                 .withMatcher("amount", ExampleMatcher.GenericPropertyMatchers.exact());
 
         Example<ProductEntity> example = Example.of(ProductEntity.builder()
-                .name(productVO.getName())
-                .description(productVO.getDescription())
-                .amount(productVO.getAmount())
+                .name(productDTO.getName())
+                .description(productDTO.getDescription())
+                .amount(productDTO.getAmount())
                 .build(), customExampleMatcher);
 
         return productRepository.findAll(example);
     }
 
-    public List<ProductEntity> findProductsSpecification(final ProductVO productVO){
-        log.info("M=findProducts, productVO={}", productVO);
+    public List<ProductEntity> findProductsSpecification(final ProductDTO productDTO){
+        log.info("M=findProducts, productDTO={}", productDTO);
 
-        return productRepository.findAll(where(getEntityFieldsSpec(productVO)));
+        return productRepository.findAll(where(getEntityFieldsSpec(productDTO)));
     }
 
-    private Specification<ProductEntity> getEntityFieldsSpec(final ProductVO productVO) {
+    private Specification<ProductEntity> getEntityFieldsSpec(final ProductDTO productDTO) {
         return (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            if (!StringUtils.isEmpty(productVO.getName())) {
-                Predicate tenantIdPredicate = criteriaBuilder.equal(root.get("name"), productVO.getName());
+            if (!StringUtils.isEmpty(productDTO.getName())) {
+                Predicate tenantIdPredicate = criteriaBuilder.equal(root.get("name"), productDTO.getName());
                 predicates.add(tenantIdPredicate);
             }
 
-            if (Objects.nonNull(productVO.getActive())) {
-                Predicate tenantIdPredicate = criteriaBuilder.equal(root.get("active"), productVO.getActive());
+            if (Objects.nonNull(productDTO.getActive())) {
+                Predicate tenantIdPredicate = criteriaBuilder.equal(root.get("active"), productDTO.getActive());
                 predicates.add(tenantIdPredicate);
             }
 

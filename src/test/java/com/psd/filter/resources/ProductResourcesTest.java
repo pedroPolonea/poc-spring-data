@@ -40,7 +40,7 @@ class ProductResourcesTest extends RestAssureConf {
 
     @Test
     void shouldReturnActiveQuery() {
-        final ProductEntity products =
+        final ProductEntity[] products =
                     given()
                         .log().all()
                         .spec(specification)
@@ -49,7 +49,7 @@ class ProductResourcesTest extends RestAssureConf {
                     .then()
                         .statusCode(200)
                         .extract()
-                        .as(ProductEntity.class);
+                        .as(ProductEntity[].class);
 
         //Assertions.assertEquals(Products[0].getId(), product.getId());
     }
@@ -58,14 +58,14 @@ class ProductResourcesTest extends RestAssureConf {
     void shouldReturnActiveQueryNative() {
         final ProductEntity[] products =
                 given()
-                        .log().all()
-                        .spec(specification)
-                        .when()
-                        .get("products/active-query-native")
-                        .then()
-                        .statusCode(200)
-                        .extract()
-                        .as(ProductEntity[].class);
+                    .log().all()
+                    .spec(specification)
+                .when()
+                    .get("products/active-query-native")
+                .then()
+                    .statusCode(200)
+                    .extract()
+                    .as(ProductEntity[].class);
 
         //Assertions.assertEquals(Products[0].getId(), product.getId());
     }
