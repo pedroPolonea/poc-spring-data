@@ -15,6 +15,6 @@ public interface ProductMapping {
 
     ProductEntity productDTOToProductEntity(ProductDTO dto);
 
-    List<ProductSummaryDTO> productEntityToProductSummaryVO(List<ProductEntity> products);
+    List<ProductSummaryDTO> productEntityToProductSummaryDTO(List<ProductEntity> products);
 
 }

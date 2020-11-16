@@ -102,8 +102,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductEntity> findProductsSpecificationClass(ProductDTO productVO) {
-        return productRepository.findAll(where(ProductSpecification.getProductSpecification(productVO)));
+    public List<ProductEntity> findProductsSpecificationClass(ProductDTO productDTO) {
+        return productRepository.findAll(where(ProductSpecification.getProductSpecification(productDTO)));
     }
 
     public List<ProductEntity> findProductsExample(final ProductDTO productDTO){

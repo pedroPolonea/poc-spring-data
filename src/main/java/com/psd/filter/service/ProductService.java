@@ -23,11 +23,11 @@ public interface ProductService {
 
     List<ProductEntity> findAllActiveQuery();
 
-    ProductDTO save(ProductDTO productVO);
+    ProductDTO save(ProductDTO productDTO);
 
-    ProductDTO update(Optional<ProductDTO> productVO) throws Exception;
+    ProductDTO update(Optional<ProductDTO> productDTO) throws Exception;
 
     void delete(final Optional<Long> id) throws NotFoundException;
 
-    List<ProductEntity> findProductsSpecificationClass(final ProductDTO productVO);
+    List<ProductEntity> findProductsSpecificationClass(final ProductDTO productDTO);
 }

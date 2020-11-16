@@ -15,19 +15,19 @@ import java.util.Objects;
 
 public class ProductSpecification {
 
-    public static Specification<ProductEntity> getProductSpecification(final ProductDTO productVO){
+    public static Specification<ProductEntity> getProductSpecification(final ProductDTO productDTO){
         return new Specification<ProductEntity>() {
             @Override
             public Predicate toPredicate(Root<ProductEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
 
-                if (!StringUtils.isEmpty(productVO.getName())) {
-                    Predicate tenantIdPredicate = criteriaBuilder.equal(root.get("name"), productVO.getName());
+                if (!StringUtils.isEmpty(productDTO.getName())) {
+                    Predicate tenantIdPredicate = criteriaBuilder.equal(root.get("name"), productDTO.getName());
                     predicates.add(tenantIdPredicate);
                 }
 
-                if (Objects.nonNull(productVO.getActive())) {
-                    Predicate tenantIdPredicate = criteriaBuilder.equal(root.get("active"), productVO.getActive());
+                if (Objects.nonNull(productDTO.getActive())) {
+                    Predicate tenantIdPredicate = criteriaBuilder.equal(root.get("active"), productDTO.getActive());
                     predicates.add(tenantIdPredicate);
                 }
 
